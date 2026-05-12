@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Virtual Girlfriend AI</title>
+    <meta name="description" content="A premium AI companion with responsive facial expressions and voice.">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+    <div id="app">
+        <!-- Background elements for aesthetic -->
+        <div class="bg-shape shape-1"></div>
+        <div class="bg-shape shape-2"></div>
+        <div class="bg-shape shape-3"></div>
+
+        <div class="container glass-panel">
+            <!-- Header -->
+            <header class="header">
+                <div class="profile-info">
+                    <div class="status-indicator" id="connection-status" title="Connecting..."></div>
+                    <div class="header-text">
+                        <h1>Virtual Girlfriend</h1>
+                        <p id="system-status-text">Initializing...</p>
+                    </div>
+                </div>
+                <div class="header-actions">
+                    <button id="hands-free-btn" class="icon-btn" title="Toggle Hands-Free Voice Mode">
+                        <i class="fa-solid fa-headset"></i>
+                    </button>
+                    <button id="clear-chat-btn" class="icon-btn" title="Clear Conversation">
+                        <i class="fa-solid fa-trash-can"></i>
+                    </button>
+                    <button id="settings-btn" class="icon-btn" title="Settings">
+                        <i class="fa-solid fa-gear"></i>
+                    </button>
+                </div>
+            </header>
+
+            <main class="main-content">
+                <!-- Video Section -->
+                <section class="media-section">
+                    <div class="video-container">
+                        <!-- Removed muted so synced audio plays -->
+                        <video id="main-video" class="active-video" loop playsinline>
+                            <!-- Placeholder or default idle video -->
+                        </video>
+                        <video id="secondary-video" class="hidden-video" playsinline></video>
+                        <div class="emotion-overlay" id="emotion-display">Idle</div>
+                    </div>
+                    <!-- Hidden audio element for voice (if fallback is needed) -->
+                    <audio id="response-audio"></audio>
+                </section>
+
+                <!-- Chat Section -->
+                <section class="chat-section">
+                    <div class="chat-history" id="chat-history">
+                        <div class="message system-message">
+                            <p>Connected. Say hi! 💕</p>
+                        </div>
+                    </div>
+                    
+                    <div class="typing-indicator hidden" id="typing-indicator">
+                        <span></span><span></span><span></span>
+                    </div>
+
+                    <div class="input-area">
+                        <div class="input-wrapper">
+                            <input type="text" id="message-input" placeholder="Type a message..." autocomplete="off">
+                            <button id="record-btn" class="icon-btn record-btn" title="Hold to speak">
+                                <i class="fa-solid fa-microphone"></i>
+                            </button>
+                            <button id="send-btn" class="icon-btn send-btn primary-btn" title="Send message">
+                                <i class="fa-solid fa-paper-plane"></i>
+                            </button>
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <!-- Modals -->
+    <div id="settings-modal" class="modal hidden">
+        <div class="modal-content glass-panel">
+            <h2>Settings</h2>
+            <div class="setting-group">
+                <label for="language-select">Language</label>
+                <select id="language-select">
+                    <option value="en">English</option>
+                    <option value="es">Spanish</option>
+                    <option value="fr">French</option>
+                    <option value="de">German</option>
+                    <option value="hi">Hindi</option>
+                    <option value="ja">Japanese</option>
+                    <option value="zh">Mandarin</option>
+                </select>
+            </div>
+            <div class="setting-group">
+                <label for="persona-select">Persona</label>
+                <select id="persona-select">
+                    <option value="girlfriend">Girlfriend 💖</option>
+                    <option value="wife">Wife 💍</option>
+                    <option value="best_friend">Best Friend 🤞</option>
+                </select>
+            </div>
+            <button id="close-settings-btn" class="primary-btn full-width">Close</button>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

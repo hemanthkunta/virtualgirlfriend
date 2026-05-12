@@ -1,0 +1,23 @@
+.venv/
+__pycache__/
+*.pyc
+.DS_Store
+
+# local data
+virtualgirlfriend.db
+temp/
+audio_input/
+audio_output/
+processed_videos/
+
+# big AI/model files
+models/
+Wav2Lip/checkpoints/
+*.pth
+*.pt
+*.onnx
+*.h5
+
+# secrets
+.env
+config/*.env
