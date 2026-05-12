@@ -21,3 +21,4 @@ Wav2Lip/checkpoints/
 # secrets
 .env
 config/*.env
+.venv/
