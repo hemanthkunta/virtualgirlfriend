@@ -1,53 +1,56 @@
-# 🎬 VIRTUAL GIRLFRIEND AI - EXECUTIVE SUMMARY
+# 📋 OVERVIEW - Documentation Hub Redirect
 
-## What Was Built For You
-
-### System Status: ✅ PRODUCTION READY
-
-You now have a **complete, professional-grade Virtual Girlfriend AI backend** with 2000+ lines of Python code, 2500+ lines of documentation, and all components ready to deploy.
+> **This file has been consolidated.** The information previously here is now maintained in up-to-date locations.
 
 ---
 
-## 📊 By The Numbers
+## 🚀 Where to Go Instead
 
-| Metric | Count | Status |
-|--------|-------|--------|
-| Python Modules | 7 | ✅ Complete |
-| Code Lines | 2000+ | ✅ Production-ready |
-| API Endpoints | 7 | ✅ All working |
-| Documentation Pages | 2500+ | ✅ Comprehensive |
-| Facial Expression Videos | 48 | ✅ All mapped |
-| Emotion Categories | 8+ | ✅ Full coverage |
-| Configuration Files | 5 | ✅ Ready to use |
-| Example Workflows | 4 | ✅ Runnable |
+| What You Want | Read This | Purpose |
+|---------------|-----------|---------|
+| **Entry point & navigation** | [START_HERE.md](START_HERE.md) | Quick orientation, links to all resources |
+| **Feature overview** | [README.md](README.md) | What this system does, how to customize |
+| **15-minute setup** | [QUICK_START.md](QUICK_START.md) | Get running immediately |
+| **Progress tracking** | [CHECKLIST.md](CHECKLIST.md) | What's done, what's next, known issues |
+| **System architecture** | [PROJECT_ARCHITECTURE.md](PROJECT_ARCHITECTURE.md) | Technical design, how modules fit together |
+| **Code deep-dive** | [IMPLEMENTATION_GUIDE.md](IMPLEMENTATION_GUIDE.md) | Detailed code walkthrough, API reference |
+| **TTS troubleshooting** | [VOICE_MODEL_GUIDE.md](VOICE_MODEL_GUIDE.md) | Coqui issues, voice options, fixes |
 
 ---
 
-## 🎯 What You Get
+## ℹ️ Why This Changed
 
-```
-COMPLETE BACKEND SYSTEM
-│
-├── 🧠 ARTIFICIAL INTELLIGENCE
-│   ├── Ollama AI Integration (mistral, neural-chat, dolphin-mixtral)
-│   ├── Personality Engine (Wife roleplay with emotions)
-│   ├── Conversation Memory (SQLite database)
-│   └── Emotion Detection (8+ emotional states)
-│
-├── 🎬 VIDEO & AUDIO PROCESSING
-│   ├── 48 Facial Expression Videos Mapped
-│   ├── Expression-to-Emotion Selector
-│   ├── Audio-Video Lip-Sync Engine
-│   ├── Watermark Processing (blur old, add new)
-│   ├── TTS Voice Synthesis (pyttsx3 + Elevenlabs)
-│   └── Speech-to-Text (Whisper integration)
-│
-├── 🌐 REST API ENDPOINTS
-│   ├── Chat endpoints (text & voice)
-│   ├── Video processing endpoints
-│   ├── Conversation history endpoints
-│   ├── System status endpoints
-│   └── Expression list endpoints
+The documentation was previously spread across multiple files with overlapping content. We've consolidated it into a clear hierarchy:
+
+- **START_HERE.md** - Single entry point with navigation
+- **README.md** - Feature overview and customization guide
+- **QUICK_START.md** - Step-by-step setup
+- **CHECKLIST.md** - Comprehensive progress tracker
+- Plus 3 specialized guides for deep topics
+
+This reduces duplication and makes the docs easier to maintain.
+
+---
+
+## 📊 Quick Project Status
+
+| Component | Status |
+|-----------|--------|
+| Backend | ✅ Complete |
+| AI Personality | ✅ Complete |
+| Facial Expressions | ✅ Complete |
+| TTS | ⚠️ Partial (fallback works) |
+| Video Sync | ✅ Complete |
+| API Server | ✅ Complete |
+| Frontend | ⚠️ Partial |
+| Testing | ✅ Started |
+| Production | ⏳ In Progress |
+
+For the full current state, see [CHECKLIST.md](CHECKLIST.md).
+
+---
+
+**Last Updated:** May 13, 2026
 │
 ├── 📚 DOCUMENTATION
 │   ├── Architecture guide (500+ lines)
