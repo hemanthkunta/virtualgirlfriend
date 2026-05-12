@@ -14,3 +14,4 @@ soundfile==0.12.1
 pydub==0.25.1
 fal-client==0.4.1
 TTS==0.22.0
+transformers==4.41.2
