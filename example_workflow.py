@@ -246,6 +246,7 @@ def example_video_processing():
     
     try:
         video_processor = VideoProcessor()
+        lipsync_engine = LipSyncEngine()
         expression_mapper = ExpressionMapper()
         
         # Get a sample video
@@ -258,13 +259,18 @@ def example_video_processing():
         
         print(f"Processing video: {video_file}")
         print(f"Full path: {video_path}")
-        
-        # Get video info
-        info = video_processor._VideoProcessor__class__.get_video_info
-        
+
+        video_info = lipsync_engine.get_video_info(video_path)
+        print(f"Video info: {video_info['width']}x{video_info['height']} @ {video_info['fps']:.2f} fps")
+        print(f"Duration: {video_info['duration']:.2f} seconds")
+
+        output_path = os.path.join('processed_videos', 'demo_video_processed.mp4')
+        processed_path = video_processor.blur_watermark(video_path, output_path)
+        print(f"✓ Processed video written to: {processed_path}")
+
         print("\nVideo processing pipeline:")
-        print("1. Blur old watermark from original")
-        print("2. Add new project watermark")
+        print("1. Inspect source video")
+        print("2. Blur the lower-right watermark region")
         print("3. Save processed video")
         print("\nThis is done automatically before syncing with audio")
     
