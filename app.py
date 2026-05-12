@@ -1,5 +1,6 @@
 import os
 import json
+import logging
 from flask import Flask, request, jsonify, send_file
 from flask_cors import CORS
 import uuid
@@ -14,6 +15,12 @@ from src.video_processor import VideoProcessor, LipSyncEngine
 
 # Initialize Flask app
 app = Flask(__name__)
+
+logging.basicConfig(
+    level=os.getenv('LOG_LEVEL', 'INFO').upper(),
+    format='%(asctime)s %(levelname)s %(name)s: %(message)s'
+)
+logger = logging.getLogger(__name__)
 
 # Configure CORS to allow requests from frontend
 CORS(app, resources={
@@ -39,14 +46,14 @@ conversation_mgr = ConversationManager(ollama)
 try:
     from src.tts_engine import get_recommended_tts_config
     recommended_config = get_recommended_tts_config()
-    print(f"🎙️ Using TTS Provider: {recommended_config['provider']}")
+    logger.info("Using TTS Provider: %s", recommended_config['provider'])
     tts_engine = TextToSpeechEngine(
         provider=recommended_config['provider'],
         voice_id=recommended_config.get('voice_id')
     )
 except Exception as e:
-    print(f"⚠️ Warning: TTS initialization failed: {e}")
-    print("Falling back to silent mode. Audio synthesis will not work until configured.")
+    logger.warning("TTS initialization failed: %s", e)
+    logger.warning("Falling back to silent mode. Audio synthesis will not work until configured.")
     tts_engine = None
 
 audio_processor = AudioProcessor()
@@ -192,7 +199,7 @@ def chat_text(override_message=None, override_language=None, override_persona=No
         })
     
     except Exception as e:
-        print(f"Error in chat_text: {e}")
+        logger.exception("Error in chat_text")
         return jsonify({'error': str(e)}), 500
 
 
@@ -249,7 +256,7 @@ def chat_audio():
         return jsonify(response_json)
     
     except Exception as e:
-        print(f"Error in chat_audio: {e}")
+        logger.exception("Error in chat_audio")
         return jsonify({'error': str(e)}), 500
 
 
@@ -302,7 +309,7 @@ def sync_audio_video():
         })
     
     except Exception as e:
-        print(f"Error in sync_audio_video: {e}")
+        logger.exception("Error in sync_audio_video")
         return jsonify({'error': str(e)}), 500
 
 
@@ -345,7 +352,7 @@ def process_video():
         })
     
     except Exception as e:
-        print(f"Error in process_video: {e}")
+        logger.exception("Error in process_video")
         return jsonify({'error': str(e)}), 500
 
 
