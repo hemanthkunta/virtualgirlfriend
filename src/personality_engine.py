@@ -1,113 +1,132 @@
 import json
 import os
-import sqlite3
 from datetime import datetime
 from typing import List, Dict
+
+from sqlalchemy import Column, DateTime, Integer, MetaData, String, Table, Text, create_engine, desc, func, insert, select, update
 
 class ConversationMemory:
     """Manages conversation history and user preferences"""
     
-    def __init__(self, db_path="virtualgirlfriend.db"):
-        self.db_path = db_path
+    def __init__(self, db_path="virtualgirlfriend.db", database_url: str = None):
+        if database_url is None:
+            database_url = os.getenv('DATABASE_URL')
+
+        if not database_url:
+            if db_path.startswith('sqlite:///') or db_path.startswith('postgresql'):
+                database_url = db_path
+            else:
+                database_url = f"sqlite:///{db_path}"
+
+        self.database_url = database_url
+        self.engine = create_engine(self.database_url, future=True)
+        self.metadata = MetaData()
+
+        self.conversations = Table(
+            'conversations',
+            self.metadata,
+            Column('id', Integer, primary_key=True, autoincrement=True),
+            Column('timestamp', DateTime, server_default=func.current_timestamp(), nullable=False),
+            Column('user_message', Text, nullable=False),
+            Column('ai_response', Text, nullable=False),
+            Column('emotion_detected', String(64), nullable=False),
+            Column('video_expression', Text, nullable=False),
+            Column('language', String(16), nullable=False),
+        )
+
+        self.user_preferences = Table(
+            'user_preferences',
+            self.metadata,
+            Column('id', Integer, primary_key=True),
+            Column('language', String(16), default='en'),
+            Column('tts_voice_id', Text),
+            Column('model_name', Text),
+            Column('theme', Text),
+        )
+
         self.init_database()
     
     def init_database(self):
-        """Initialize SQLite database for conversation history"""
-        conn = sqlite3.connect(self.db_path)
-        cursor = conn.cursor()
-        
-        # Conversation history table
-        cursor.execute('''
-            CREATE TABLE IF NOT EXISTS conversations (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
-                user_message TEXT,
-                ai_response TEXT,
-                emotion_detected TEXT,
-                video_expression TEXT,
-                language TEXT
-            )
-        ''')
-        
-        # User preferences table
-        cursor.execute('''
-            CREATE TABLE IF NOT EXISTS user_preferences (
-                id INTEGER PRIMARY KEY,
-                language TEXT DEFAULT 'en',
-                tts_voice_id TEXT,
-                model_name TEXT,
-                theme TEXT
-            )
-        ''')
-        
-        conn.commit()
-        conn.close()
+        """Initialize the database tables."""
+        self.metadata.create_all(self.engine)
     
     def save_conversation(self, user_msg: str, ai_response: str, 
                          emotion: str, video_expr: str, language: str):
         """Save conversation to database"""
-        conn = sqlite3.connect(self.db_path)
-        cursor = conn.cursor()
-        cursor.execute('''
-            INSERT INTO conversations 
-            (user_message, ai_response, emotion_detected, video_expression, language)
-            VALUES (?, ?, ?, ?, ?)
-        ''', (user_msg, ai_response, emotion, video_expr, language))
-        conn.commit()
-        conn.close()
+        statement = insert(self.conversations).values(
+            user_message=user_msg,
+            ai_response=ai_response,
+            emotion_detected=emotion,
+            video_expression=video_expr,
+            language=language,
+        )
+        with self.engine.begin() as connection:
+            connection.execute(statement)
     
     def get_conversation_history(self, limit: int = 10) -> List[Dict]:
         """Get last N conversations"""
-        conn = sqlite3.connect(self.db_path)
-        cursor = conn.cursor()
-        cursor.execute('''
-            SELECT user_message, ai_response, emotion_detected, timestamp 
-            FROM conversations 
-            ORDER BY timestamp DESC LIMIT ?
-        ''', (limit,))
-        
+        statement = (
+            select(
+                self.conversations.c.user_message,
+                self.conversations.c.ai_response,
+                self.conversations.c.emotion_detected,
+                self.conversations.c.timestamp,
+            )
+            .order_by(desc(self.conversations.c.timestamp), desc(self.conversations.c.id))
+            .limit(limit)
+        )
+
+        with self.engine.connect() as connection:
+            rows = connection.execute(statement).mappings().all()
+
         conversations = []
-        for row in cursor.fetchall():
+        for row in rows:
             conversations.append({
-                'user': row[0],
-                'ai': row[1],
-                'emotion': row[2],
-                'timestamp': row[3]
+                'user': row['user_message'],
+                'ai': row['ai_response'],
+                'emotion': row['emotion_detected'],
+                'timestamp': row['timestamp'],
             })
-        conn.close()
         return list(reversed(conversations))
     
     def get_user_preferences(self) -> Dict:
         """Get user preferences"""
-        conn = sqlite3.connect(self.db_path)
-        cursor = conn.cursor()
-        cursor.execute('SELECT * FROM user_preferences WHERE id = 1')
-        row = cursor.fetchone()
-        conn.close()
-        
+        statement = select(self.user_preferences).where(self.user_preferences.c.id == 1)
+
+        with self.engine.connect() as connection:
+            row = connection.execute(statement).mappings().first()
+
         if row:
             return {
-                'language': row[1],
-                'tts_voice_id': row[2],
-                'model_name': row[3],
-                'theme': row[4]
+                'language': row['language'],
+                'tts_voice_id': row['tts_voice_id'],
+                'model_name': row['model_name'],
+                'theme': row['theme']
             }
         return {'language': 'en', 'model_name': 'mistral'}
     
     def update_user_preferences(self, preferences: Dict):
         """Update user preferences"""
-        conn = sqlite3.connect(self.db_path)
-        cursor = conn.cursor()
-        cursor.execute('''
-            INSERT OR REPLACE INTO user_preferences 
-            (id, language, tts_voice_id, model_name, theme)
-            VALUES (1, ?, ?, ?, ?)
-        ''', (preferences.get('language', 'en'),
-              preferences.get('tts_voice_id', ''),
-              preferences.get('model_name', 'mistral'),
-              preferences.get('theme', 'light')))
-        conn.commit()
-        conn.close()
+        values = {
+            'language': preferences.get('language', 'en'),
+            'tts_voice_id': preferences.get('tts_voice_id', ''),
+            'model_name': preferences.get('model_name', 'mistral'),
+            'theme': preferences.get('theme', 'light'),
+        }
+
+        with self.engine.begin() as connection:
+            existing = connection.execute(
+                select(self.user_preferences.c.id).where(self.user_preferences.c.id == 1)
+            ).first()
+
+            if existing:
+                connection.execute(
+                    update(self.user_preferences)
+                    .where(self.user_preferences.c.id == 1)
+                    .values(id=1, **values)
+                )
+            else:
+                connection.execute(insert(self.user_preferences).values(id=1, **values))
 
 
 class PersonalityEngine:

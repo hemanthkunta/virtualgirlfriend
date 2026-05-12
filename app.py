@@ -36,10 +36,18 @@ CORS(app, resources={
 app.config['MAX_CONTENT_LENGTH'] = 50 * 1024 * 1024  # 50MB max file upload
 
 # Initialize components
-conversation_memory = ConversationMemory()
+conversation_memory = ConversationMemory(
+    database_url=os.getenv(
+        'DATABASE_URL',
+        f"sqlite:///{os.getenv('DATABASE_PATH', 'virtualgirlfriend.db')}"
+    )
+)
 personality_engine = PersonalityEngine()
 expression_mapper = ExpressionMapper()
-ollama = OllamaInterface(model_name=os.getenv('OLLAMA_MODEL', 'llama3.2:1b'))
+ollama = OllamaInterface(
+    base_url=os.getenv('OLLAMA_BASE_URL', 'http://localhost:11434'),
+    model_name=os.getenv('OLLAMA_MODEL', 'llama3.2:1b')
+)
 conversation_mgr = ConversationManager(ollama)
 
 # Initialize TTS with error handling
@@ -468,4 +476,5 @@ if __name__ == '__main__':
     print("   GET  /api/conversation/history - Get chat history")
     print("")
     
-    app.run(debug=True, port=5000, host='0.0.0.0')
+    debug_mode = os.getenv('FLASK_DEBUG', 'False').lower() in ('1', 'true', 'yes')
+    app.run(debug=debug_mode, port=int(os.getenv('PORT', '5000')), host='0.0.0.0')
