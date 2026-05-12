@@ -11,9 +11,7 @@ audio_output/
 processed_videos/
 
 # big AI/model files
-models/
 Wav2Lip/checkpoints/
-*.pth
 *.pt
 *.onnx
 *.h5
