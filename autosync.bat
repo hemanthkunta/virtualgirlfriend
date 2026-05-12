@@ -6,5 +6,5 @@ git add .
 git commit -m "Auto sync" 2>nul
 git push
 
-timeout /t 100 >nul
+timeout /t 500 >nul
 goto loop

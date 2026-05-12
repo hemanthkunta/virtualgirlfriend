@@ -1,0 +1,69 @@
+{
+  "generated_at": "2026-05-12 23:51:43",
+  "results": [
+    {
+      "name": "init_personality_engine",
+      "status": "ok",
+      "seconds": 6.299931555986404e-06,
+      "detail": "initialized"
+    },
+    {
+      "name": "init_expression_mapper",
+      "status": "ok",
+      "seconds": 6.800051778554916e-06,
+      "detail": "12 emotion groups"
+    },
+    {
+      "name": "init_tts_engine",
+      "status": "ok",
+      "seconds": 0.407954900059849,
+      "detail": "pyttsx3 fallback"
+    },
+    {
+      "name": "init_video_processor",
+      "status": "ok",
+      "seconds": 0.0029398000333458185,
+      "detail": "initialized"
+    },
+    {
+      "name": "init_lipsync_engine",
+      "status": "ok",
+      "seconds": 6.600050255656242e-06,
+      "detail": "initialized"
+    },
+    {
+      "name": "generate_personality_prompt",
+      "status": "ok",
+      "seconds": 2.6099965907633305e-05,
+      "detail": "887"
+    },
+    {
+      "name": "ollama_generate_response",
+      "status": "ok",
+      "seconds": 82.18057359999511,
+      "detail": "\ud83d\udd25 Aww, I missed you too! What did you get up to? \ud83d\udc95"
+    },
+    {
+      "name": "tts_synthesis",
+      "status": "ok",
+      "seconds": 0.21279579994734377,
+      "detail": "C:\\Users\\Unknown\\Downloads\\virtualgirlfriend\\virtualgirlfriend\\src\\..\\audio_output\\benchmark_tts_1778610081.wav"
+    },
+    {
+      "name": "video_blur_watermark",
+      "status": "ok",
+      "seconds": 4.336005600052886,
+      "detail": "C:\\Users\\Unknown\\Downloads\\virtualgirlfriend\\virtualgirlfriend\\processed_videos\\benchmark_blur.mp4"
+    },
+    {
+      "name": "merge_audio_video",
+      "status": "ok",
+      "seconds": 16.62629280006513,
+      "detail": "C:\\Users\\Unknown\\Downloads\\virtualgirlfriend\\virtualgirlfriend\\processed_videos\\benchmark_merged.mp4"
+    }
+  ],
+  "success_count": 10,
+  "error_count": 0,
+  "skipped_count": 0,
+  "average_ok_seconds": 10.376660830015316
+}
