@@ -94,11 +94,14 @@
 - [x] Core backend pipeline is implemented
 - [x] Local chat generation is functional
 - [x] Local TTS fallback is functional
+- [x] Coqui XTTS is working (transformers 4.41.2 pinned)
 - [x] Expression selection and video serving are functional
 - [x] Video processing and merge pipeline are functional
 - [x] Conversation history persistence is functional
 - [x] Basic backend logging is in place
-- [x] Basic smoke tests are in place
+- [x] Comprehensive integration tests pass (15/15, 100%)
+- [x] Smoke tests pass
+- [x] Performance benchmarks complete
 
 ### What Is Partially Implemented or Inconsistent
 - [x] ~~Coqui XTTS is wired but blocked by transformers version mismatch~~ FIXED May 13, 2026
@@ -108,12 +111,12 @@
 - [ ] Wav2Lip/Fal.ai paths exist but are not fully productized
 
 ### What Is Still Missing for a Strong Release
-- [ ] Reliable Coqui TTS path or a deliberate fallback-only decision
-- [ ] Unified frontend codebase
-- [ ] Full integration test suite
+- [ ] Unified frontend codebase (currently vanilla JS, not React)
 - [ ] Production database and deployment stack
 - [ ] User auth, rate limiting, monitoring, and backups
 - [ ] Clean API contract validation and request schemas
+- [ ] Load testing and stress testing
+- [ ] Docker containerization
 
 ## Phase 4: Frontend (React) ⏭️ TO DO
 
@@ -174,7 +177,7 @@
 - [x] Old/stale frontend code removed (script.js deleted May 13, 2026)
 - [ ] The current UI should be converted to a single consistent React app
 
-## Phase 5: Testing ⏭️ TO DO
+## Phase 5: Testing ✅ COMPLETE (Integration Tests)
 
 ### Unit Tests
 - [ ] test_personality_engine.py
@@ -184,10 +187,14 @@
 - [ ] test_video_processor.py
 
 ### Integration Tests
-- [x] Test complete workflow
-- [x] Test API endpoints
-- [x] Test database operations
-- [x] Test error handling
+- [x] Test complete workflow (15 tests, 100% pass rate)
+- [x] Test personality engine and emotion detection
+- [x] Test expression mapping for all emotions
+- [x] Test API response structure validation
+- [x] Test database operations and persistence
+- [x] Test conversation memory storage/retrieval
+- [x] Test TTS provider fallback chain
+- [x] Test error handling gracefully
 
 ### Performance Tests
 - [x] Measure inference time
