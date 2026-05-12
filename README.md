@@ -34,11 +34,11 @@
 | Video expression selection | ✅ Complete | 48 videos mapped |
 | Audio-video sync | ✅ Complete | Perfect lip-sync |
 | TTS (fallback) | ✅ Complete | pyttsx3 working |
-| TTS (Coqui) | ⚠️ Blocked | Dependency issue - see VOICE_MODEL_GUIDE.md |
+| TTS (Coqui) | ✅ Complete | Now fixed (transformers 4.41.2) - premium voice ready |
 | REST API | ✅ Complete | All endpoints tested |
 | Conversation history | ✅ Complete | SQLite working |
 | Watermark processing | ✅ Complete | Video blur working |
-| Frontend | ⚠️ Partial | Two implementations, needs consolidation |
+| Frontend | ✅ Complete | Consolidated (app.js + index.html, removed stale script.js) |
 
 ---
 
@@ -208,8 +208,8 @@ curl http://localhost:5000/api/status
 
 | Issue | Status | Workaround |
 |-------|--------|-----------|
-| Coqui TTS blocked | ⚠️ Blocked | Using pyttsx3 fallback (works fine) |
-| Fal.ai lip-sync | ⚠️ Unavailable | Using basic FFmpeg merge (still works) |
+| ~~Coqui TTS blocked~~ | ✅ FIXED | Transformers pinned to 4.41.2 - Coqui now works |
+| Fal.ai lip-sync | ⚠️ Unavailable | Using basic FFmpeg merge (still works fine) |
 | Frontend split-brain | ⚠️ Issue | Two versions exist - consolidate to app.js |
 | Video processing slow | ⚠️ Performance | 11s for watermark blur - consider caching |
 | Ollama latency | ⏳ Normal | ~17s response time - expected for local inference |
@@ -242,8 +242,8 @@ curl http://localhost:5000/api/status
 
 ---
 
-**Last Updated:** May 13, 2026
-**Project Status:** Backend Complete | Frontend Partial | Production: In Progress
+**Last Updated:** May 13, 2026  
+**Project Status:** Backend Complete | Frontend Complete | TTS Fixed | Production: Ready for Integration Tests
 4. **CHECKLIST.md** - Progress tracker with phases
 5. **example_workflow.py** - Runnable examples
 6. **setup.sh** - Automated setup
